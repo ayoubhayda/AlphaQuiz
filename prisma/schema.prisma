@@ -16,12 +16,14 @@ model User {
   email         String    @unique
   emailVerified DateTime?
   image         String?
-  class         String? 
+  class         String?
+  serialNumber  Int?
   accounts      Account[]
   sessions      Session[]
+  answers       Answer[]
 
   userType           UserType @default(USER)
-  onboardingComplete Boolean   @default(false)
+  onboardingComplete Boolean  @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -69,4 +71,18 @@ model VerificationToken {
   expires    DateTime
 
   @@id([identifier, token])
+}
+
+model Answer {
+  id             String @id @default(cuid())
+  moduleName     String
+  moduleSlug     String
+  score          Int
+  correctAnswers Int
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

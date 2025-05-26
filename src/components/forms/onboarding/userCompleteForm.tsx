@@ -10,7 +10,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
@@ -20,7 +20,7 @@ import {
   SelectItem,
   SelectLabel,
   SelectTrigger,
-  SelectValue
+  SelectValue,
 } from "@/components/ui/select";
 import { classesList } from "@/constants";
 import { Button } from "@/components/ui/button";
@@ -34,6 +34,7 @@ const UserCompleteForm = () => {
     defaultValues: {
       name: "",
       class: "",
+      serialNumber: 0,
     },
   });
 
@@ -76,7 +77,10 @@ const UserCompleteForm = () => {
             <FormItem className="space-y-0.5">
               <FormLabel>Classe</FormLabel>
               <FormControl>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
                   <FormControl className="!w-full">
                     <SelectTrigger>
                       <SelectValue placeholder="Sélectionner une classe" />
@@ -86,7 +90,10 @@ const UserCompleteForm = () => {
                     <SelectGroup>
                       <SelectLabel>Liste des classes</SelectLabel>
                       {classesList.map((classItem) => (
-                        <SelectItem value={classItem.value} key={classItem.value}>
+                        <SelectItem
+                          value={classItem.value}
+                          key={classItem.value}
+                        >
                           <span className="pl-1">{classItem.label}</span>
                         </SelectItem>
                       ))}
@@ -98,6 +105,26 @@ const UserCompleteForm = () => {
             </FormItem>
           )}
         />
+
+        {/* Numéro dans la liste */}
+        <FormField
+  control={form.control}
+  name="serialNumber"
+  render={({ field }) => (
+    <FormItem className="space-y-0.5">
+      <FormLabel>Numéro dans la liste</FormLabel>
+      <FormControl>
+        <Input 
+          type="number" 
+          placeholder="Entrez le numéro" 
+          {...field}
+          value={field.value || ""}  // Ensure it's never undefined
+        />
+      </FormControl>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
 
         {/* Bouton d'envoi */}
         <Button

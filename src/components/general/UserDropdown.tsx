@@ -2,7 +2,6 @@ import React from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -10,8 +9,7 @@ import {
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
-import Link from "next/link";
-import { Heart, Layers2, LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { signOut } from "@/utils/auth";
 
 interface UserInfoProps {
@@ -38,32 +36,6 @@ const UserDropdown = ({ email, name, image }: UserInfoProps) => {
           </span>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuItem asChild className="cursor-pointer">
-            <Link href="/favorites">
-              <Heart
-                size={16}
-                strokeWidth={2}
-                className="opacity-60"
-                aria-hidden="true"
-              />
-              <span>Saved Jobs</span>
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem asChild className="cursor-pointer">
-            <Link href="/my-jobs">
-              <Layers2
-                size={16}
-                strokeWidth={2}
-                className="opacity-60"
-                aria-hidden="true"
-              />
-              <span>My Job Listings</span>
-            </Link>
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-
-        <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <form
             action={async () => {
@@ -78,7 +50,7 @@ const UserDropdown = ({ email, name, image }: UserInfoProps) => {
                 className="opacity-60"
                 aria-hidden="true"
               />
-              <span>Logout</span>
+              <span>Déconnexion</span>
             </button>
           </form>
         </DropdownMenuItem>

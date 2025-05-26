@@ -15,7 +15,7 @@ async function checkIfUserHsFinishedOnboarding(userId: string) {
     },
   });
 
-  if (user?.userType === "USER" && user?.onboardingComplete === true) {
+  if (user?.userType === "ADMIN" ||  (user?.userType === "USER" && user?.onboardingComplete === true)) {
     return redirect("/");
   }
 

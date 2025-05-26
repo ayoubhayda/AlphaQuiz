@@ -11,8 +11,10 @@ import {
 import { Activity, Check, LibraryBig, SignalMedium } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { getMyAnswerMutation } from "@/lib/Services";
 
-const ModuleCard = ({ module }: { module: moduleTypes }) => {
+const ModuleCard = async ({ module, userId }: { module: moduleTypes, userId: string }) => {
+  const answer = await getMyAnswerMutation(module.slug, userId)
   return (
     <Link href={`module/${module.slug}`} className="col-span-1">
       <Card
@@ -34,17 +36,18 @@ const ModuleCard = ({ module }: { module: moduleTypes }) => {
               </CardTitle>
               <Badge
                 className={`rounded-full text-black dark:text-white ${
-                  module.status === "Active"
-                    ? "bg-primary/20"
-                    : "bg-yellow-700/20"
+                  answer
+                    ? "bg-yellow-700/20"
+                    : "bg-primary/20"
                 }`}
               >
-                {module.status}
+                {answer?"Terminé":"Active"}
 
-                {module.status === "Active" ? (
-                  <Activity className="text-primary ml-1" />
-                ) : (
+                {answer ? (
                   <Check className="text-yellow-700 ml-1" />
+                  
+                ) : (
+                  <Activity className="text-primary ml-1" />
                 )}
               </Badge>
             </div>

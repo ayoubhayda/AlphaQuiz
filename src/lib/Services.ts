@@ -1,210 +1,98 @@
 import { prisma } from "@/utils/prisma";
-import { notFound, redirect } from "next/navigation";
 
-export const getCompany = async (userId: string) => {
-  const data = await prisma.company.findUnique({
+// Get my answer
+export const getMyAnswerMutation = async (
+  moduleSlug: string,
+  userId: string
+) => {
+  const data = await prisma.answer.findFirst({
     where: {
+      moduleSlug: moduleSlug,
       userId: userId,
     },
     select: {
-      id: true,
-      name: true,
-      logo: true,
-      location: true,
-      about: true,
-      xAccount: true,
-      website: true,
-      createdAt: true,
-      updatedAt: true,
+      moduleName: true,
+      moduleSlug: true,
+      score: true,
+      correctAnswers: true,
     },
   });
-
-  if (!data) {
-    return redirect("/");
-  }
 
   return data;
 };
 
-// Get all active jobs
-export const getJobsDataMutation = async () => {
-  const data = await prisma.job.findMany({
-    where: {
-      status: "ACTIVE",
-    },
-    select: {
-      id: true,
-      jobTitle: true,
-      salaryFrom: true,
-      salaryTo: true,
-      employmentType: true,
-      location: true,
-      createdAt: true,
-      company: {
-        select: {
-          id: true,
-          name: true,
-          logo: true,
-          location: true,
-          about: true,
+// Get answers
+export const getAnswersMutation = async (
+  moduleSlug: string = "",
+  classSlug: string = "",
+  page: number = 1,
+  pageSize: number = 10
+) => {
+  const skip = (page - 1) * pageSize;
+
+  const [data, allAnswers, totalCount] = await Promise.all([
+    prisma.answer.findMany({
+      where: {
+        moduleSlug: moduleSlug !== "" ? moduleSlug : undefined,
+        user: {
+          class: classSlug !== "" ? classSlug : undefined,
+          userType: "USER",
         },
       },
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
-
-  return data;
-};
-
-// Get Job Details
-export const getJobMutation = async (jobId: string, userId?: string) => {
-  const [jobData, savedJob] = await Promise.all([
-    await prisma.job.findUnique({
-      where: {
-        status: "ACTIVE",
-        id: jobId,
-      },
+      skip: skip,
+      take: pageSize,
       select: {
-        jobTitle: true,
-        jobDescription: true,
-        location: true,
-        employmentType: true,
-        benefits: true,
+        id: true,
+        moduleName: true,
+        moduleSlug: true,
+        score: true,
         createdAt: true,
-        listingDuration: true,
-        company: {
+        user: {
           select: {
             name: true,
-            logo: true,
-            location: true,
-            about: true,
+            serialNumber: true,
+            class: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    }),
+
+    prisma.answer.findMany({
+      where: {
+        moduleSlug: moduleSlug !== "" ? moduleSlug : undefined,
+        user: {
+          class: classSlug !== "" ? classSlug : undefined,
+          userType: "USER",
+        },
+      },
+      select: {
+        moduleSlug: true,
+        score: true,
+        user: {
+          select: {
+            serialNumber: true,
           },
         },
       },
     }),
 
-    userId
-      ? prisma.savedJob.findUnique({
-          where: {
-            jobId_userId: {
-              userId: userId,
-              jobId: jobId,
-            },
-          },
-          select: {
-            id: true,
-          },
-        })
-      : null,
+    prisma.answer.count({
+      where: {
+        moduleSlug: moduleSlug !== "" ? moduleSlug : undefined,
+        user: {
+          class: classSlug !== "" ? classSlug : undefined,
+          userType: "USER",
+        },
+      },
+    }),
   ]);
 
-  if (!jobData) {
-    return notFound();
-  }
-
   return {
-    jobData,
-    savedJob,
+    answers: data,
+    allAnswers: allAnswers,
+    totalPages: Math.ceil(totalCount / pageSize),
   };
-};
-
-// Get Favorites Jobs
-export const getFavoritesMutation = async (userId: string) => {
-  const data = await prisma.savedJob.findMany({
-    where: {
-      userId: userId,
-    },
-    select: {
-      job: {
-        select: {
-          id: true,
-          jobTitle: true,
-          salaryFrom: true,
-          salaryTo: true,
-          employmentType: true,
-          location: true,
-          createdAt: true,
-          company: {
-            select: {
-              name: true,
-              logo: true,
-              location: true,
-              about: true,
-            },
-          },
-        },
-      },
-    },
-  });
-
-  return data;
-};
-
-// Get my jobs
-export const getMyJobsMutation = async (userId: string) => {
-  const data = await prisma.job.findMany({
-    where: {
-      company: {
-        userId: userId,
-      },
-    },
-    select: {
-      id: true,
-      jobTitle: true,
-      status: true,
-      createdAt: true,
-      company: {
-        select: {
-          name: true,
-          logo: true,
-        },
-      },
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
-
-  return data;
-};
-
-// Get my job
-export const getMyJobMutation = async (jobId: string, userId: string) => {
-  const data = await prisma.job.findUnique({
-    where: {
-      id: jobId,
-      company:{
-        userId: userId,
-      }
-    },
-    select: {
-      benefits: true,
-      id: true,
-      jobTitle: true,
-      jobDescription: true,
-      salaryFrom: true,
-      salaryTo: true,
-      location: true,
-      employmentType: true,
-      listingDuration: true,
-      company: {
-        select: {
-          about: true,
-          name: true,
-          location: true,
-          website: true,
-          xAccount: true,
-          logo: true,
-        },
-      },
-    },
-  });
-
-  if (!data) {
-    return notFound();
-  }
-
-  return data;
 };

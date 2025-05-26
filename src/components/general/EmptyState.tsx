@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Ban, Undo2 } from "lucide-react";
+import { Ban, RotateCcw } from "lucide-react";
 import Link from "next/link";
 
 interface iAppProps {
@@ -24,7 +24,7 @@ const EmptyState = ({ buttonText, description, href, title, className = "" }: iA
 
       <Button asChild>
         <Link href={href} className="text-white">
-          {buttonText} <Undo2 className="size-4 ml-1" />
+          <RotateCcw className="size-4 ml-1" /> {buttonText} 
         </Link>
       </Button>
     </div>

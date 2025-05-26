@@ -1,0 +1,13 @@
+# Prisma generated files
+src/generated/
+prisma/generated/
+node_modules/
+.next/
+out/
+build/
+
+# Other common ignores
+*.config.js
+*.config.ts
+public/
+.vercel/
