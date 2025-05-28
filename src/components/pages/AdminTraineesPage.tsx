@@ -1,4 +1,4 @@
-import { getAnswersMutation } from "@/lib/Services";
+import { getUsersMutation } from "@/lib/Services";
 import React from "react";
 import EmptyState from "../general/EmptyState";
 import {
@@ -17,40 +17,38 @@ import {
   TableRow,
 } from "../ui/table";
 import {
-  BookOpen,
-  Calendar,
   GraduationCap,
   LibraryBig,
   Trophy,
-  UserCheck,
   Users,
+  MessageSquare,
+  UserCheck,
+  Clock,
+  Medal,
 } from "lucide-react";
 
 import { Badge } from "../ui/badge";
-import { format } from "date-fns";
-import { fr } from "date-fns/locale";
 import MainPagination from "../general/MainPagination";
-import AdminFilterSection from "../general/adminFilterSection";
-import DeleteAnswerDialog from "../general/DeleteAnswerDialog";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import TrainessFilterSection from "../general/TrainessFilterSection";
+import DeleteTraineeDialog from "../general/DeleteUserDialog";
 
-const AdminPage = async ({
+const AdminTraineesPage = async ({
   currentPage,
-  moduleSlug,
   classSlug,
 }: {
   currentPage: number;
-  moduleSlug: string;
   classSlug: string;
 }) => {
-  const { answers, allAnswers, totalPages } = await getAnswersMutation(
-    moduleSlug,
+  const { users, allUsers, totalPages } = await getUsersMutation(
     classSlug,
     currentPage
   );
 
   const getScoreBadgeColor = (score: number) => {
+    if (score === 0)
+      return "bg-zinc-500/20 dark:bg-zinc-400/20 text-zinc-700 dark:text-zinc-300";
     if (score >= 80)
       return "bg-green-500/20 text-green-700 dark:text-green-400";
     if (score >= 60)
@@ -58,19 +56,35 @@ const AdminPage = async ({
     return "bg-red-500/20 text-red-700 dark:text-red-400";
   };
 
-  if (answers.length === 0) {
+  const getScoreDisplay = (score: number) => {
+    return score === 0 ? "En attente" : `${score}%`;
+  };
+
+  const getRankBadgeColor = (rank: number) => {
+    if (rank === 1) return "bg-yellow-500/20 text-yellow-700 dark:text-yellow-400";
+    if (rank === 2) return "bg-gray-400/20 text-gray-700 dark:text-gray-300";
+    if (rank === 3) return "bg-orange-500/20 text-orange-700 dark:text-orange-400";
+    return "bg-blue-500/20 text-blue-700 dark:text-blue-400";
+  };
+
+  const calculateRank = (index: number) => {
+    return (currentPage - 1) * 10 + index + 1;
+  };
+
+  if (users.length === 0) {
     return (
       <div className="min-h-[calc(100vh-100px)] flex items-center justify-center">
         <EmptyState
           className="border-none"
-          title="Aucune réponse trouvée"
-          description="Il n'y a pas encore de réponses d'étudiants à afficher."
+          title="Aucun stagiaire trouvé"
+          description="Il n'y a pas encore de stagiaires à afficher."
           buttonText="Réinitialiser"
-          href="/"
+          href="/trainees"
         />
       </div>
     );
   }
+
   return (
     <div className="space-y-6 mt-8 mb-10">
       {/* Header Stats */}
@@ -82,8 +96,10 @@ const AdminPage = async ({
                 <Users className="size-8 text-primary" />
               </div>
               <div>
-                <p className="text-2xl font-bold mb-1">{allAnswers.length}</p>
-                <p className="text-sm text-muted-foreground">Total Réponses</p>
+                <p className="text-2xl font-bold mb-1">{allUsers.length}</p>
+                <p className="text-sm text-muted-foreground">
+                  Total Stagiaires
+                </p>
               </div>
             </div>
           </CardContent>
@@ -98,8 +114,8 @@ const AdminPage = async ({
               <div>
                 <p className="text-2xl font-bold mb-1">
                   {Math.round(
-                    allAnswers.reduce((acc, curr) => acc + curr.score, 0) /
-                      allAnswers.length
+                    users.reduce((acc, curr) => acc + (curr.score || 0), 0) /
+                      users.length
                   ) || 0}
                   %
                 </p>
@@ -113,13 +129,13 @@ const AdminPage = async ({
           <CardContent className="p-6">
             <div className="flex items-center gap-4">
               <div className="p-3 bg-blue-500/10 rounded-lg">
-                <BookOpen className="size-8 text-blue-600" />
+                <GraduationCap className="size-8 text-blue-600" />
               </div>
               <div>
                 <p className="text-2xl font-bold mb-1">
-                  {new Set(allAnswers.map((a) => a.moduleSlug)).size}
+                  {new Set(users.map((u) => u.class)).size}
                 </p>
-                <p className="text-sm text-muted-foreground">Modules Actifs</p>
+                <p className="text-sm text-muted-foreground">Classes Actives</p>
               </div>
             </div>
           </CardContent>
@@ -129,15 +145,16 @@ const AdminPage = async ({
           <CardContent className="p-6">
             <div className="flex items-center gap-4">
               <div className="p-3 bg-purple-500/10 rounded-lg">
-                <GraduationCap className="size-8 text-purple-600" />
+                <MessageSquare className="size-8 text-purple-600" />
               </div>
               <div>
                 <p className="text-2xl font-bold mb-1">
-                  {new Set(allAnswers.map((a) => a.user.serialNumber)).size}
+                  {users.reduce(
+                    (acc, curr) => acc + (curr.answers?.length || 0),
+                    0
+                  )}
                 </p>
-                <p className="text-sm text-muted-foreground">
-                  Étudiants Actifs
-                </p>
+                <p className="text-sm text-muted-foreground">Total Réponses</p>
               </div>
             </div>
           </CardContent>
@@ -150,70 +167,90 @@ const AdminPage = async ({
           <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
             <div>
               <CardTitle className="text-2xl flex items-center gap-2">
-                <LibraryBig className="hidden md:block h-5 w-5" />
-                Gestion des Réponses Stagiaires
+                <UserCheck className="hidden md:block h-5 w-5" />
+                Gestion des Stagiaires
               </CardTitle>
               <CardDescription>
-                Consultez et gérez les réponses des stagiaires par classe et module
+                Consultez et gérez les stagiaires par classe avec leurs scores
+                finaux
               </CardDescription>
             </div>
-            <Link href="/trainees">
-              <Button variant="outline" className="flex items-center gap-2 cursor-pointer shadow-none">
-                <UserCheck className="h-4 w-4" />
+            <Link href="/">
+              <Button
+                variant="outline"
+                className="flex items-center gap-2 cursor-pointer shadow-none"
+              >
+                <LibraryBig className="h-4 w-4" />
                 <span className="hidden sm:inline">Gestion des</span>
-                Stagiaires
+                Réponses
               </Button>
             </Link>
           </div>
         </CardHeader>
         <CardContent>
           {/* Filters */}
-          <AdminFilterSection />
+          <TrainessFilterSection />
 
           {/* Desktop Table */}
           <div className="hidden md:block">
             <Table>
               <TableHeader>
                 <TableRow>
+                  <TableHead>Rang</TableHead>
                   <TableHead>Stagiaire</TableHead>
                   <TableHead>Numéro</TableHead>
                   <TableHead>Classe</TableHead>
-                  <TableHead>Module</TableHead>
+                  <TableHead>Réponses</TableHead>
                   <TableHead>Score</TableHead>
-                  <TableHead>Date</TableHead>
-                  
                   <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {answers.map((answer, index) => (
+                {users.map((user, index) => (
                   <TableRow
-                    key={`${answer.user.serialNumber}-${answer.moduleSlug}-${index}`}
+                    key={`${user.serialNumber}-${index}`}
                     className="hover:bg-muted/0 transition-colors duration-200"
                   >
-                    <TableCell className="font-medium">
-                      {answer.user.name}
-                    </TableCell>
-                    <TableCell>{answer.user.serialNumber}</TableCell>
                     <TableCell>
-                      <Badge variant="outline" className="py-1">{answer.user.class}</Badge>
+                      <Badge
+                        className={`${getRankBadgeColor(
+                          calculateRank(index)
+                        )} font-semibold py-1 text-xs flex items-center gap-1.5 w-fit`}
+                      >
+                        <Medal className="h-3 w-3" />
+                        #{calculateRank(index)}
+                      </Badge>
                     </TableCell>
-                    <TableCell>{answer.moduleName}</TableCell>
+                    <TableCell className="font-medium">{user.name}</TableCell>
+                    <TableCell>{user.serialNumber}</TableCell>
                     <TableCell>
-                      <Badge className={`${getScoreBadgeColor(answer.score)} py-1`}>
-                        {answer.score}%
+                      <Badge variant="outline" className="py-1">{user.class}</Badge>
+                    </TableCell>
+                    <TableCell>
+                      <Badge
+                        variant="secondary"
+                        className="bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 py-1"
+                      >
+                        {user.answers?.length || 0}
                       </Badge>
                     </TableCell>
                     <TableCell>
-                      {format(new Date(answer.createdAt), "dd/MM/yyyy", {
-                        locale: fr,
-                      })}
+                      <Badge
+                        className={`${getScoreBadgeColor(
+                          user.score || 0
+                        )} font-semibold py-1 text-xs flex items-center gap-1.5`}
+                      >
+                        {(user.score || 0) === 0 && (
+                          <Clock className="h-3 w-3" />
+                        )}
+                        {getScoreDisplay(user.score || 0)}
+                      </Badge>
                     </TableCell>
                     <TableCell className="text-right">
-                      <DeleteAnswerDialog
-                        answerId={answer.id}
-                        studentName={answer.user.name!}
-                        moduleName={answer.moduleName}
+                      <DeleteTraineeDialog
+                        userId={user.id}
+                        traineeName={user.name!}
+                        traineeClass={user.class!}
                         variant="desktop"
                       />
                     </TableCell>
@@ -225,9 +262,9 @@ const AdminPage = async ({
 
           {/* Mobile Table */}
           <div className="md:hidden space-y-4">
-            {answers.map((answer, index) => (
+            {users.map((user, index) => (
               <Card
-                key={`${answer.user.serialNumber}-${answer.moduleSlug}-${index}`}
+                key={`${user.serialNumber}-${index}`}
                 className="shadow-none overflow-hidden p-0"
               >
                 <CardContent className="p-0">
@@ -239,20 +276,33 @@ const AdminPage = async ({
                           <Users className="h-5 w-5 text-primary" />
                         </div>
                         <div>
-                          <h3 className="font-semibold text-base text-foreground">
-                            {answer.user.name}
-                          </h3>
+                          <div className="flex items-center gap-2 mb-1">
+                            <h3 className="font-semibold text-base text-foreground">
+                              {user.name}
+                            </h3>
+                            <Badge
+                              className={`${getRankBadgeColor(
+                                calculateRank(index)
+                              )} font-semibold px-2 py-0.5 text-xs flex items-center gap-1`}
+                            >
+                              <Medal className="h-3 w-3" />
+                              #{calculateRank(index)}
+                            </Badge>
+                          </div>
                           <p className="text-xs text-muted-foreground">
-                            #{answer.user.serialNumber}
+                            #{user.serialNumber}
                           </p>
                         </div>
                       </div>
                       <Badge
                         className={`${getScoreBadgeColor(
-                          answer.score
-                        )} font-semibold px-3 py-1 text-xs`}
+                          user.score || 0
+                        )} font-semibold px-3 py-1 text-xs flex items-center gap-1`}
                       >
-                        {answer.score}%
+                        {(user.score || 0) === 0 && (
+                          <Clock className="h-3 w-3" />
+                        )}
+                        {getScoreDisplay(user.score || 0)}
                       </Badge>
                     </div>
                   </div>
@@ -273,47 +323,34 @@ const AdminPage = async ({
                           variant="secondary"
                           className="bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 border-blue-200 dark:border-blue-800"
                         >
-                          {answer.user.class}
+                          {user.class}
                         </Badge>
                       </div>
 
                       <div className="flex items-center justify-between py-3 border-b border-border/60 px-2 -mx-2">
                         <div className="flex items-center gap-3">
                           <div className="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center">
-                            <BookOpen className="h-4 w-4 text-purple-600" />
+                            <MessageSquare className="h-4 w-4 text-purple-600" />
                           </div>
                           <span className="text-sm font-medium text-muted-foreground">
-                            Module
+                            Réponses
                           </span>
                         </div>
-                        <span className="text-sm font-semibold text-foreground text-right max-w-[50%] truncate">
-                          {answer.moduleName}
-                        </span>
-                      </div>
-
-                      <div className="flex items-center justify-between py-3 border-b border-border/60 px-2 -mx-2">
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center">
-                            <Calendar className="h-4 w-4 text-green-600" />
-                          </div>
-                          <span className="text-sm font-medium text-muted-foreground">
-                            Date
-                          </span>
-                        </div>
-                        <span className="text-sm font-semibold text-foreground">
-                          {format(new Date(answer.createdAt), "dd/MM/yyyy", {
-                            locale: fr,
-                          })}
-                        </span>
+                        <Badge
+                          variant="secondary"
+                          className="bg-purple-50 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300"
+                        >
+                          {user.answers?.length || 0}
+                        </Badge>
                       </div>
                     </div>
 
                     {/* Action Section */}
                     <div className="pt-3">
-                      <DeleteAnswerDialog
-                        answerId={answer.id}
-                        studentName={answer.user.name!}
-                        moduleName={answer.moduleName}
+                      <DeleteTraineeDialog
+                        userId={user.id}
+                        traineeName={user.name!}
+                        traineeClass={user.class!}
                         variant="mobile"
                       />
                     </div>
@@ -330,4 +367,4 @@ const AdminPage = async ({
   );
 };
 
-export default AdminPage;
+export default AdminTraineesPage;

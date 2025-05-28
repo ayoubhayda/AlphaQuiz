@@ -18,6 +18,7 @@ model User {
   image         String?
   class         String?
   serialNumber  Int?
+  score         Int       @default(0)
   accounts      Account[]
   sessions      Session[]
   answers       Answer[]

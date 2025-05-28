@@ -1312,10 +1312,12 @@ export namespace Prisma {
 
   export type UserAvgAggregateOutputType = {
     serialNumber: number | null
+    score: number | null
   }
 
   export type UserSumAggregateOutputType = {
     serialNumber: number | null
+    score: number | null
   }
 
   export type UserMinAggregateOutputType = {
@@ -1326,6 +1328,7 @@ export namespace Prisma {
     image: string | null
     class: string | null
     serialNumber: number | null
+    score: number | null
     userType: $Enums.UserType | null
     onboardingComplete: boolean | null
     createdAt: Date | null
@@ -1340,6 +1343,7 @@ export namespace Prisma {
     image: string | null
     class: string | null
     serialNumber: number | null
+    score: number | null
     userType: $Enums.UserType | null
     onboardingComplete: boolean | null
     createdAt: Date | null
@@ -1354,6 +1358,7 @@ export namespace Prisma {
     image: number
     class: number
     serialNumber: number
+    score: number
     userType: number
     onboardingComplete: number
     createdAt: number
@@ -1364,10 +1369,12 @@ export namespace Prisma {
 
   export type UserAvgAggregateInputType = {
     serialNumber?: true
+    score?: true
   }
 
   export type UserSumAggregateInputType = {
     serialNumber?: true
+    score?: true
   }
 
   export type UserMinAggregateInputType = {
@@ -1378,6 +1385,7 @@ export namespace Prisma {
     image?: true
     class?: true
     serialNumber?: true
+    score?: true
     userType?: true
     onboardingComplete?: true
     createdAt?: true
@@ -1392,6 +1400,7 @@ export namespace Prisma {
     image?: true
     class?: true
     serialNumber?: true
+    score?: true
     userType?: true
     onboardingComplete?: true
     createdAt?: true
@@ -1406,6 +1415,7 @@ export namespace Prisma {
     image?: true
     class?: true
     serialNumber?: true
+    score?: true
     userType?: true
     onboardingComplete?: true
     createdAt?: true
@@ -1507,6 +1517,7 @@ export namespace Prisma {
     image: string | null
     class: string | null
     serialNumber: number | null
+    score: number
     userType: $Enums.UserType
     onboardingComplete: boolean
     createdAt: Date
@@ -1540,6 +1551,7 @@ export namespace Prisma {
     image?: boolean
     class?: boolean
     serialNumber?: boolean
+    score?: boolean
     userType?: boolean
     onboardingComplete?: boolean
     createdAt?: boolean
@@ -1558,6 +1570,7 @@ export namespace Prisma {
     image?: boolean
     class?: boolean
     serialNumber?: boolean
+    score?: boolean
     userType?: boolean
     onboardingComplete?: boolean
     createdAt?: boolean
@@ -1572,6 +1585,7 @@ export namespace Prisma {
     image?: boolean
     class?: boolean
     serialNumber?: boolean
+    score?: boolean
     userType?: boolean
     onboardingComplete?: boolean
     createdAt?: boolean
@@ -1586,13 +1600,14 @@ export namespace Prisma {
     image?: boolean
     class?: boolean
     serialNumber?: boolean
+    score?: boolean
     userType?: boolean
     onboardingComplete?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "class" | "serialNumber" | "userType" | "onboardingComplete" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "class" | "serialNumber" | "score" | "userType" | "onboardingComplete" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
@@ -1617,6 +1632,7 @@ export namespace Prisma {
       image: string | null
       class: string | null
       serialNumber: number | null
+      score: number
       userType: $Enums.UserType
       onboardingComplete: boolean
       createdAt: Date
@@ -2054,6 +2070,7 @@ export namespace Prisma {
     readonly image: FieldRef<"User", 'String'>
     readonly class: FieldRef<"User", 'String'>
     readonly serialNumber: FieldRef<"User", 'Int'>
+    readonly score: FieldRef<"User", 'Int'>
     readonly userType: FieldRef<"User", 'UserType'>
     readonly onboardingComplete: FieldRef<"User", 'Boolean'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
@@ -6916,6 +6933,7 @@ export namespace Prisma {
     image: 'image',
     class: 'class',
     serialNumber: 'serialNumber',
+    score: 'score',
     userType: 'userType',
     onboardingComplete: 'onboardingComplete',
     createdAt: 'createdAt',
@@ -7098,6 +7116,7 @@ export namespace Prisma {
     image?: StringNullableFilter<"User"> | string | null
     class?: StringNullableFilter<"User"> | string | null
     serialNumber?: IntNullableFilter<"User"> | number | null
+    score?: IntFilter<"User"> | number
     userType?: EnumUserTypeFilter<"User"> | $Enums.UserType
     onboardingComplete?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
@@ -7115,6 +7134,7 @@ export namespace Prisma {
     image?: SortOrderInput | SortOrder
     class?: SortOrderInput | SortOrder
     serialNumber?: SortOrderInput | SortOrder
+    score?: SortOrder
     userType?: SortOrder
     onboardingComplete?: SortOrder
     createdAt?: SortOrder
@@ -7135,6 +7155,7 @@ export namespace Prisma {
     image?: StringNullableFilter<"User"> | string | null
     class?: StringNullableFilter<"User"> | string | null
     serialNumber?: IntNullableFilter<"User"> | number | null
+    score?: IntFilter<"User"> | number
     userType?: EnumUserTypeFilter<"User"> | $Enums.UserType
     onboardingComplete?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
@@ -7152,6 +7173,7 @@ export namespace Prisma {
     image?: SortOrderInput | SortOrder
     class?: SortOrderInput | SortOrder
     serialNumber?: SortOrderInput | SortOrder
+    score?: SortOrder
     userType?: SortOrder
     onboardingComplete?: SortOrder
     createdAt?: SortOrder
@@ -7174,6 +7196,7 @@ export namespace Prisma {
     image?: StringNullableWithAggregatesFilter<"User"> | string | null
     class?: StringNullableWithAggregatesFilter<"User"> | string | null
     serialNumber?: IntNullableWithAggregatesFilter<"User"> | number | null
+    score?: IntWithAggregatesFilter<"User"> | number
     userType?: EnumUserTypeWithAggregatesFilter<"User"> | $Enums.UserType
     onboardingComplete?: BoolWithAggregatesFilter<"User"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -7456,6 +7479,7 @@ export namespace Prisma {
     image?: string | null
     class?: string | null
     serialNumber?: number | null
+    score?: number
     userType?: $Enums.UserType
     onboardingComplete?: boolean
     createdAt?: Date | string
@@ -7473,6 +7497,7 @@ export namespace Prisma {
     image?: string | null
     class?: string | null
     serialNumber?: number | null
+    score?: number
     userType?: $Enums.UserType
     onboardingComplete?: boolean
     createdAt?: Date | string
@@ -7490,6 +7515,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     class?: NullableStringFieldUpdateOperationsInput | string | null
     serialNumber?: NullableIntFieldUpdateOperationsInput | number | null
+    score?: IntFieldUpdateOperationsInput | number
     userType?: EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -7507,6 +7533,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     class?: NullableStringFieldUpdateOperationsInput | string | null
     serialNumber?: NullableIntFieldUpdateOperationsInput | number | null
+    score?: IntFieldUpdateOperationsInput | number
     userType?: EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -7524,6 +7551,7 @@ export namespace Prisma {
     image?: string | null
     class?: string | null
     serialNumber?: number | null
+    score?: number
     userType?: $Enums.UserType
     onboardingComplete?: boolean
     createdAt?: Date | string
@@ -7538,6 +7566,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     class?: NullableStringFieldUpdateOperationsInput | string | null
     serialNumber?: NullableIntFieldUpdateOperationsInput | number | null
+    score?: IntFieldUpdateOperationsInput | number
     userType?: EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -7552,6 +7581,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     class?: NullableStringFieldUpdateOperationsInput | string | null
     serialNumber?: NullableIntFieldUpdateOperationsInput | number | null
+    score?: IntFieldUpdateOperationsInput | number
     userType?: EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -7894,6 +7924,17 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type EnumUserTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.UserType | EnumUserTypeFieldRefInput<$PrismaModel>
     in?: $Enums.UserType[] | ListEnumUserTypeFieldRefInput<$PrismaModel>
@@ -7960,6 +8001,7 @@ export namespace Prisma {
     image?: SortOrder
     class?: SortOrder
     serialNumber?: SortOrder
+    score?: SortOrder
     userType?: SortOrder
     onboardingComplete?: SortOrder
     createdAt?: SortOrder
@@ -7968,6 +8010,7 @@ export namespace Prisma {
 
   export type UserAvgOrderByAggregateInput = {
     serialNumber?: SortOrder
+    score?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -7978,6 +8021,7 @@ export namespace Prisma {
     image?: SortOrder
     class?: SortOrder
     serialNumber?: SortOrder
+    score?: SortOrder
     userType?: SortOrder
     onboardingComplete?: SortOrder
     createdAt?: SortOrder
@@ -7992,6 +8036,7 @@ export namespace Prisma {
     image?: SortOrder
     class?: SortOrder
     serialNumber?: SortOrder
+    score?: SortOrder
     userType?: SortOrder
     onboardingComplete?: SortOrder
     createdAt?: SortOrder
@@ -8000,6 +8045,7 @@ export namespace Prisma {
 
   export type UserSumOrderByAggregateInput = {
     serialNumber?: SortOrder
+    score?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -8066,6 +8112,22 @@ export namespace Prisma {
     _sum?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedIntNullableFilter<$PrismaModel>
     _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type EnumUserTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -8213,17 +8275,6 @@ export namespace Prisma {
     expires?: SortOrder
   }
 
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
   export type AnswerCountOrderByAggregateInput = {
     id?: SortOrder
     moduleName?: SortOrder
@@ -8265,22 +8316,6 @@ export namespace Prisma {
   export type AnswerSumOrderByAggregateInput = {
     score?: SortOrder
     correctAnswers?: SortOrder
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type AccountCreateNestedManyWithoutUserInput = {
@@ -8339,6 +8374,14 @@ export namespace Prisma {
 
   export type NullableIntFieldUpdateOperationsInput = {
     set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
     increment?: number
     decrement?: number
     multiply?: number
@@ -8475,14 +8518,6 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
   export type UserUpdateOneRequiredWithoutAnswersNestedInput = {
     create?: XOR<UserCreateWithoutAnswersInput, UserUncheckedCreateWithoutAnswersInput>
     connectOrCreate?: UserCreateOrConnectWithoutAnswersInput
@@ -8541,6 +8576,17 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
+  export type NestedIntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type NestedEnumUserTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.UserType | EnumUserTypeFieldRefInput<$PrismaModel>
     in?: $Enums.UserType[] | ListEnumUserTypeFieldRefInput<$PrismaModel>
@@ -8579,17 +8625,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
-  }
-
-  export type NestedIntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -8650,6 +8685,33 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
   export type NestedEnumUserTypeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.UserType | EnumUserTypeFieldRefInput<$PrismaModel>
     in?: $Enums.UserType[] | ListEnumUserTypeFieldRefInput<$PrismaModel>
@@ -8680,33 +8742,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
-  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
-  }
-
-  export type NestedFloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
   }
 
   export type AccountCreateWithoutUserInput = {
@@ -8903,6 +8938,7 @@ export namespace Prisma {
     image?: string | null
     class?: string | null
     serialNumber?: number | null
+    score?: number
     userType?: $Enums.UserType
     onboardingComplete?: boolean
     createdAt?: Date | string
@@ -8919,6 +8955,7 @@ export namespace Prisma {
     image?: string | null
     class?: string | null
     serialNumber?: number | null
+    score?: number
     userType?: $Enums.UserType
     onboardingComplete?: boolean
     createdAt?: Date | string
@@ -8951,6 +8988,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     class?: NullableStringFieldUpdateOperationsInput | string | null
     serialNumber?: NullableIntFieldUpdateOperationsInput | number | null
+    score?: IntFieldUpdateOperationsInput | number
     userType?: EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -8967,6 +9005,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     class?: NullableStringFieldUpdateOperationsInput | string | null
     serialNumber?: NullableIntFieldUpdateOperationsInput | number | null
+    score?: IntFieldUpdateOperationsInput | number
     userType?: EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -8983,6 +9022,7 @@ export namespace Prisma {
     image?: string | null
     class?: string | null
     serialNumber?: number | null
+    score?: number
     userType?: $Enums.UserType
     onboardingComplete?: boolean
     createdAt?: Date | string
@@ -8999,6 +9039,7 @@ export namespace Prisma {
     image?: string | null
     class?: string | null
     serialNumber?: number | null
+    score?: number
     userType?: $Enums.UserType
     onboardingComplete?: boolean
     createdAt?: Date | string
@@ -9031,6 +9072,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     class?: NullableStringFieldUpdateOperationsInput | string | null
     serialNumber?: NullableIntFieldUpdateOperationsInput | number | null
+    score?: IntFieldUpdateOperationsInput | number
     userType?: EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9047,6 +9089,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     class?: NullableStringFieldUpdateOperationsInput | string | null
     serialNumber?: NullableIntFieldUpdateOperationsInput | number | null
+    score?: IntFieldUpdateOperationsInput | number
     userType?: EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9063,6 +9106,7 @@ export namespace Prisma {
     image?: string | null
     class?: string | null
     serialNumber?: number | null
+    score?: number
     userType?: $Enums.UserType
     onboardingComplete?: boolean
     createdAt?: Date | string
@@ -9079,6 +9123,7 @@ export namespace Prisma {
     image?: string | null
     class?: string | null
     serialNumber?: number | null
+    score?: number
     userType?: $Enums.UserType
     onboardingComplete?: boolean
     createdAt?: Date | string
@@ -9111,6 +9156,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     class?: NullableStringFieldUpdateOperationsInput | string | null
     serialNumber?: NullableIntFieldUpdateOperationsInput | number | null
+    score?: IntFieldUpdateOperationsInput | number
     userType?: EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9127,6 +9173,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     class?: NullableStringFieldUpdateOperationsInput | string | null
     serialNumber?: NullableIntFieldUpdateOperationsInput | number | null
+    score?: IntFieldUpdateOperationsInput | number
     userType?: EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
     onboardingComplete?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

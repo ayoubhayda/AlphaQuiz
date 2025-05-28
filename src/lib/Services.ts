@@ -37,6 +37,7 @@ export const getAnswersMutation = async (
         user: {
           class: classSlug !== "" ? classSlug : undefined,
           userType: "USER",
+          onboardingComplete: true
         },
       },
       skip: skip,
@@ -66,6 +67,7 @@ export const getAnswersMutation = async (
         user: {
           class: classSlug !== "" ? classSlug : undefined,
           userType: "USER",
+          onboardingComplete: true
         },
       },
       select: {
@@ -85,6 +87,7 @@ export const getAnswersMutation = async (
         user: {
           class: classSlug !== "" ? classSlug : undefined,
           userType: "USER",
+          onboardingComplete: true
         },
       },
     }),
@@ -93,6 +96,63 @@ export const getAnswersMutation = async (
   return {
     answers: data,
     allAnswers: allAnswers,
+    totalPages: Math.ceil(totalCount / pageSize),
+  };
+};
+
+// Get users
+export const getUsersMutation = async (
+  classSlug: string = "",
+  page: number = 1,
+  pageSize: number = 10
+) => {
+  const skip = (page - 1) * pageSize;
+
+  const [data, allUsers, totalCount] = await Promise.all([
+    prisma.user.findMany({
+      where: {
+        class: classSlug !== "" ? classSlug : undefined,
+        userType: "USER",
+        onboardingComplete: true
+      },
+      skip: skip,
+      take: pageSize,
+      select: {
+        id: true,
+        name: true,
+        serialNumber: true,
+        class: true,
+        score:true,
+        answers:true
+      },
+      orderBy: {
+        score: "desc",
+      },
+    }),
+
+    prisma.user.findMany({
+      where: {
+        class: classSlug !== "" ? classSlug : undefined,
+        userType: "USER",
+        onboardingComplete: true
+      },
+      select: {
+        serialNumber: true,
+      },
+    }),
+
+    prisma.user.count({
+      where: {
+        class: classSlug !== "" ? classSlug : undefined,
+        userType: "USER",
+        onboardingComplete: true
+      },
+    }),
+  ]);
+
+  return {
+    users: data,
+    allUsers: allUsers,
     totalPages: Math.ceil(totalCount / pageSize),
   };
 };

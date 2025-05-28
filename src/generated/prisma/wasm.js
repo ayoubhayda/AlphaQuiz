@@ -128,6 +128,7 @@ exports.Prisma.UserScalarFieldEnum = {
   image: 'image',
   class: 'class',
   serialNumber: 'serialNumber',
+  score: 'score',
   userType: 'userType',
   onboardingComplete: 'onboardingComplete',
   createdAt: 'createdAt',
